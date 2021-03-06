@@ -1,0 +1,88 @@
+/EBandPlannerROS/xy_goal_tolerance (double, default: 0.1)
+• 达到目标姿势的距离公差。
+~/EBandPlannerROS/yaw_goal_tolerance (double, default: 0.05)
+• 达到预期目标姿势的方向公差。
+~/EBandPlannerROS/rot_stopped_vel (double, default: 0.01)
+• 确定机器人是否应该停止以避免极限循环或锁定的角速度下限。(没有用到不用管)
+
+~/EBandPlannerROS/trans_stopped_vel (double, default: 0.01)
+• 线速度下限，确定机器人是否应该停止以避免极限循环或锁定。(没有用到不用管)
+Visualization Parameters
+可视化参数
+~/EBandPlannerROS/marker_lifetime (double, default: 0.5)
+• eband可视化标记的生命周期。
+
+
+Elastic Band Parameters
+~/EBandPlannerROS/eband_min_relative_overlap (double, default: 0.7)
+• distance >= min_bubble_overlap_ * (bubble1.expansion + bubble2.expansion)
+• 表示连续气泡之间的连通性的最小距离。  判断两个气泡重合度是否满足，min_bubble_overlap_这个参数说如果重合度不满足也是不行的
+~/EBandPlannerROS/eband_tiny_bubble_distance (double, default: 0.01)
+• 就是说distance1很小的话,那么difference也是很小的,所以可能等于0,所以我们要做的就是把distance设置为很大就行了
+• 关于微小气泡距离的气泡几何边界。
+~/EBandPlannerROS/eband_tiny_bubble_expansion (double, default: 0.01)
+• 就是说离得很近(有多近)，那么力就应该很大很大
+• 关于微小气泡膨胀的气泡几何边界。
+~/EBandPlannerROS/eband_internal_force_gain (double, default: 1.0)
+• 内力的增益，也就是论文中得Kc
+• 连续气泡之间趋于拉伸弹性带的力的力增益。
+~/EBandPlannerROS/eband_external_force_gain (double, default: 2.0)
+• 内力的增益，也就是论文中得Kr
+• 趋于使气泡远离障碍物的力的增力。
+~/EBandPlannerROS/num_iterations_eband_optimization (int, default: 3)
+• 束带优化的迭代次数。
+<!-- 下面两个参数是checksum_zero矢量映射为负数的时候采用 -->
+    ~/EBandPlannerROS/eband_equilibrium_approx_max_recursion_depth (int, default: 4)
+    • 但checksum_zero矢量映射为负数的时候采用,这个没太懂
+    • 达到内外力平衡的迭代次数。
+    ~/EBandPlannerROS/eband_equilibrium_relative_overshoot (double, default: 0.75)
+    • Maximum relative equlibrium overshoot .
+    • 最大相对平衡超调。
+    ~/EBandPlannerROS/eband_significant_force_lower_bound (double, default: 0.15)
+    • Minimum magnitude of force that is considered significant and used in the calculations .
+    • 计算中使用的最小力的大小，被认为是重要的。
+~/EBandPlannerROS/costmap_weight (double, default: 10.0)
+• -log(factor)也就是factor越趋近于0，那么这个值也就越大，也就是说半径越大，然后防止他远离的很大，这里除以一个系数
+• Costmap权重因子，用于计算到障碍物的距离。
+
+
+Trajectory Controller Parameters
+~/EBandPlannerROS/max_vel_lin (double, default: 0.75)
+• 最大线速度。如果距离目标的距离小于0.75,那么速度会受到限制
+~/EBandPlannerROS/max_vel_th (double, default: 1.0)
+• 最大角速度。
+~/EBandPlannerROS/min_vel_lin (double, default: 0.1)
+• 最小的线速度。
+~/EBandPlannerROS/min_vel_th (double, default: 0.0)
+• 最小的角速度。
+~/EBandPlannerROS/min_in_place_vel_th (double, default: 0.0)
+• 最小到位角速度。(没啥用)
+~/EBandPlannerROS/in_place_trans_vel (double, default: 0.0)
+• 最小到位线速度。(没啥用)
+~/EBandPlannerROS/k_prop (double, default: 4.0)
+• PID控制器的比例增益。这个就是p控制,根据 两个点的位姿进行速度给定
+~/EBandPlannerROS/k_damp (double, default: 3.5)
+• PID控制器的阻尼增益。(差速轮没用到)
+~/EBandPlannerROS/Ctrl_Rate (double, default: 10.0)
+• 控制频率。这个在差速轮中没使用
+~/EBandPlannerROS/max_acceleration (double, default: 0.5)
+• 最大允许加速度。 没有见到差速轮使用他的
+~/EBandPlannerROS/virtual_mass (double, default: 0.75)
+• 虚拟质量。差速轮没有用到
+~/EBandPlannerROS/max_translational_acceleration (double, default: 0.5)
+• Maximum linear acceleration.
+• 最大线性加速度。差速轮没有用到
+~/EBandPlannerROS/max_rotational_acceleration (double, default: 1.5)
+• Maximum angular acceleration.
+•  最大角加速度。差速轮没有用到
+~/EBandPlannerROS/rotation_correction_threshold (double, default: 0.5)
+• Rotation correction threshold.
+•  旋转校正阈值。差速轮没有用到
+~/EBandPlannerROS/differential_drive (bool, default: True)
+• 表示是否使用差动驱动模式。 
+~/EBandPlannerROS/bubble_velocity_multiplier (double, default: 2.0)
+• 气泡半径的倍数。根据这个值去设置线速度
+~/EBandPlannerROS/rotation_threshold_multiplier (double, default: 1.0)
+•  旋转阈值乘数。跟上面意思一样
+~/EBandPlannerROS/disallow_hysteresis (bool, default: False)
+• 确定在超出公差范围时是否尝试接近目标。没懂这个参数 
